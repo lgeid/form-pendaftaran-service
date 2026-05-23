@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LG Electronics - Sistem Laporan Service Center</title>
+    <style>
+        :root {
+            /* Warna Resmi LG Electronics */
+            --lg-red: #A50034;
+            --lg-dark-red: #8C002B;
+            --lg-gray-900: #1A1A1A;
+            --lg-gray-700: #333333;
+            --lg-gray-400: #999999;
+            --lg-gray-100: #F5F5F5;
+            --lg-white: #FFFFFF;
+            --lg-border: #E0E0E0;
+            
+            /* Warna Status */
+            --status-new: #FFF3CD;
+            --status-process: #CFE2FF;
+            --status-done: #D1E7DD;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'LG Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--lg-gray-100);
+            color: var(--lg-gray-900);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ==========================================
+           HEADER DENGAN LOGO LG
+           ========================================== */
+        .main-header {
+            background-color: var(--lg-white);
+            border-bottom: 2px solid var(--lg-red);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            height: 45px;
+            width: auto;
+        }
+
+        .logo-text h1 {
+            font-size: 1.4rem;
+            color: var(--lg-red);
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .logo-text p {
+            font-size: 0.85rem;
+            color: var(--lg-gray-700);
+            margin: 0;
+        }
+
+        .tagline {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--lg-gray-700);
+            font-style: italic;
+        }
+
+        /* ==========================================
+           LAYOUT UTAMA
+           ========================================== */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            flex: 1;
+        }
+
+        @media (min-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr 1.8fr;
+            }
+        }
+
+        /* ==========================================
+           KOMPONEN CARD / KOTAK
+           ========================================== */
+        .card {
+            background: var(--lg-white);
+            border-radius: 6px;
+            padding: 24px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--lg-red);
+        }
+
+        .card h2 {
+            font-size: 1.25rem;
+            color: var(--lg-gray-900);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--lg-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 18px;
+            background-color: var(--lg-red);
+        }
+
+        /* ==========================================
+           FORMULIR
+           ========================================== */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--lg-gray-700);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--lg-border);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background-color: var(--lg-white);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--lg-red);
+            box-shadow: 0 0 0 3px rgba(165, 0, 52, 0.1);
+        }
+
+        button {
+            width: 100%;
+            background-color: var(--lg-red);
+            color: var(--lg-white);
+            border: none;
+            padding: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--lg-dark-red);
+        }
+
+        .info-kirim {
+            font-size: 0.8rem;
+            color: var(--lg-gray-400);
+            margin-top: 12px;
+            padding: 8px;
+            background-color: var(--lg-gray-100);
+            border-radius: 4px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ==========================================
+           TABEL DATA
+           ========================================== */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 4px;
+            border: 1px solid var(--lg-border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background-color: var(--lg-gray-100);
+            color: var(--lg-gray-900);
+            font-weight: 700;
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 2px solid var(--lg-red);
+
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--lg-border);
+            vertical-align: top;
+        }
+
+        tr:hover {
+            background-color: #fef2f6;
+        }
+
+        /* Badge Status */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-masuk { background-color: var(--status-new); color: #856404; }
+        .badge-proses { background-color: var(--status-process); color: #084298; }
+        .badge-selesai { background-color: var(--status-done); color: #0f5132; }
+
+        /* Tombol Aksi di Tabel */
+        .btn-action {
+            padding: 5px 8px;
+            font-size: 0.75rem;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            width: 100%;
+            margin: 2px 0;
+            font-weight: 500;
+            text-transform: none;
+        }
+        .btn-hapus { background-color: #dc3545; color: white; }
+        .btn-wa { background-color: #25D366; color: white; }
+        .btn-email { background-color: #D44638; color: white; }
+
+        /* Link Sharelok */
+        .link-lokasi {
+            color: #0066CC;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link-lokasi:hover {
+            text-decoration: underline;
+        }
+
+        /* ==========================================
+           MODAL PERSETUJUAN
+           ========================================== */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 15px;
+            backdrop-filter: blur(4px);
+        }
+
+        .agreement-box {
+            background-color: var(--lg-white);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 620px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-top: 5px solid var(--lg-red);
+            animation: modalMuncul 0.4s ease-out;
+        }
+
+        @keyframes modalMuncul {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .agreement-header {
+            background-color: var(--lg-red);
+            color: white;
+            padding: 16px;
+            text-align: center;
+            border-radius: 6px 6px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .agreement-header img {
+            height: 30px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .agreement-header h2 {
+            font-size: 1.1rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .agreement-body {
+            padding: 24px;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            color: var(--lg-gray-700);
+        }
+
+        .agreement-body h3 {
+            color: var(--lg-red);
+            text-align: center;
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .ketentuan {
+            background-color: #fff8f9;
+            border-left: 4px solid var(--lg-red);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .biaya {
+            font-weight: 700;
+            color: var(--lg-red);
+            font-size: 1rem;
+        }
+
+        .agreement-footer {
+            display: flex;
+            gap: 12px;
+            padding: 0 24px 24px 24px;
+        }
+
+        .btn-setuju { background-color: #198754; }
+        .btn-setuju:hover { background-color: #157347; }
+        .btn-tolak { background-color: #dc3545; }
+        .btn-tolak:hover { background-color: #bb2d3b; }
+
+        #mainApp { display: none; }
+
+        /* ==========================================
+           FOOTER / POWERED BY
+           ========================================== */
+        .main-footer {
+            margin-top: 30px;
+            padding: 15px 0;
+            background-color: var(--lg-white);
+            border-top: 1px solid var(--lg-border);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--lg-gray-700);
+            font-weight: 500;
+        }
+
+        .main-footer span {
+            color: var(--lg-red);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HALAMAN PERSETUJUAN AWAL -->
+    <div id="agreementModal" class="overlay">
+        <div class="agreement-box">
+            <div class="agreement-header">
+                <img src="https://files.catbox.moe/f6g7rh.svg" alt="LG Icon">
+                <h2>Persetujuan Ketentuan Layanan Service</h2>
+            </div>
+            <div class="agreement-body">
+                <h3>⚠️ PERHATIAN: Ketentuan Biaya Pengecekan atau Pembatalan</h3>
+                
+                <p>Dengan menyerahkan barang elektronik merek LG untuk diperbaiki di <strong>LG Electronics Service Center</strong>, Pelanggan dianggap telah membaca, mengerti, dan <strong>menyetujui</strong> seluruh ketentuan layanan kami berikut ini:</p>
+                
+                <div class="ketentuan">
+                    <p>Setiap laporan perbaikan, baik itu sistem <em>Carry In</em> (bawa ke tempat kami) maupun <em>In-Home</em> (teknisi datang ke rumah), <strong>akan dikenakan biaya pengecekan / biaya pembatalan</strong> bilamana terjadi pembatalan perbaikan setelah teknisi berkunjung dan  melakukan pengecekan produk.</p>
+                    
+                    <p>Adapun rincian biaya pengecekan / pembatalan adalah sebagai berikut:</p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>Produk Microwave, Audio, dan peralatan kecil: <span class="biaya">Rp 88.800</span></li>
+                        <li>Produk TV, Mesin Cuci, AC, Kulkas, dan produk besar lainnya: <span class="biaya">Rp 166.500 - Rp 450.000</span> (tergantung tipe, ukuran, dan spesifikasi produk)</li>
+                    </ul>
+                </div>
+
+                <p>Biaya ini dibebankan sebagai pengganti biaya operasional, waktu kerja teknisi, dan transportasi yang telah dikeluarkan saat proses pengecekan berlangsung, terlepas dari apakah perbaikan jadi dilakukan atau dibatalkan oleh pelanggan setelah mengetahui kerusakan maupun estimasi biaya perbaikan , Dan perlu di tekankan biaya pengecekan tidak akan menjadi tambahan jika customer setuju dengan biaya yang di sampaikan tehknisi sesuai dengan kerusakan produk anda</p>
+                
+                <p style="font-weight: 600; margin-top:15px;">Apakah Anda menyetujui ketentuan di atas dan ingin melanjutkan ke formulir laporan?</p>
+            </div>
+            <div class="agreement-footer">
+                <button id="btnTolak" class="btn-tolak">Tidak Setuju / Keluar</button>
+                <button id="btnSetuju" class="btn-setuju">Setuju & Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ISI UTAMA APLIKASI -->
+    <div id="mainApp">
+        <!-- HEADER DENGAN LOGO LG -->
+        <header class="main-header">
+            <div class="container header-content">
+                <div class="logo-container">
+                    <img src="https://files.catbox.moe/f6g7rh.svg" alt="LG Logo" class="logo-icon">
+                    <div class="logo-text">
+                        <h1>LG Electronics</h1>
+                        <p>Service Center Management System</p>
+                    </div>
+                </div>
+                <div class="tagline">
+                    Memberikan Kepuasan dan Solusi Terbaik
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="main-layout">
+                <!-- Form Input Laporan -->
+                <div class="card">
+                    <h2>Formulir Laporan Perbaikan</h2>
+                    <form id="formService">
+                        <div class="form-group">
+                            <label for="namaPelanggan">Nama Lengkap Pelanggan *</label>
+                            <input type="text" id="namaPelanggan" required placeholder="Contoh: Budi Santoso">
+                        </div>
+                        <div class="form-group">
+                            <label for="kontak">Nomor Telepon / WhatsApp *</label>
+                            <input type="tel" id="kontak" required placeholder="Contoh: 0812-3456-7890">
+                        </div>
+                        
+                        <!-- KOLOM BARU: ALAMAT LENGKAP -->
+                        <div class="form-group">
+                            <label for="alamat">Alamat Lengkap *</label>
+                            <textarea id="alamat" rows="3" required placeholder="Masukkan alamat lengkap: Nama Jalan, Nomor Rumah, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten"></textarea>
+                        </div>
+                        
+                        <!-- KOLOM BARU: SHARELOK -->
+                        <div class="form-group">
+                            <label for="sharelok">Link Sharelok / (Tidak wajib di isi)</label>
+                            <input type="url" id="sharelok" placeholder="Contoh: https://maps.google.com/maps?q=-6.12345,106.12345">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="namaBarang">Tipe / model Produk *</label>
+                            <input type="text" id="namaBarang" required placeholder="Contoh: TV LED LG 43UP7500 / Kulkas GN-H722HLHU">
+                        </div>
+                        <div class="form-group">
+                            <label for="keluhan">Deskripsi Kerusakan / Keluhan *</label>
+                            <textarea id="keluhan" rows="4" required placeholder="Jelaskan detail masalah yang terjadi pada produk..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipeLayanan">Jenis Layanan *</label>
+                            <select id="tipeLayanan" required>
+                                <option value="Carry In">Carry In (Bawa ke Gerai Service)</option>
+                                <option value="In Home">In Home (Kunjungan ke Rumah)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status">Status Awal Laporan *</label>
+                            <select id="status">
+                                <option value="Baru Masuk">Baru Masuk</option>
+                                <option value="Sedang Diproses">Sedang Diproses</option>
+                                <option value="Selesai">Selesai / Selesai Diperbaiki</option>
+                            </select>
+                        </div>
+                        
+                        <!-- INFO TUJUAN PENGIRIMAN -->
+                        <div class="info-kirim">
+                            <strong>Laporan akan dikirim ke:</strong><br>
+                            WhatsApp: 6281241256747 | 6282193699993<br>
+                            Email: Alqadri.syarif@lge.com
+                        </div>
+
+                        <button type="submit">Kirim Laporan Service</button>
+                    </form>
+                </div>
+
+                <!-- Tabel Monitoring Laporan -->
+                <div class="card">
+                    <h2>Daftar Antrean & Status Perbaikan</h2>
+                    <div class="table-container">
+                        <table id="tabelService">
+                            <thead>
+                                <tr>
+                                    <th>Tgl Masuk</th>
+                                    <th>Data Pelanggan & Lokasi</th>
+                                    <th>Produk LG</th>
+                                    <th>Keluhan</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listLaporan">
+                                <!-- Data otomatis masuk di sini -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             FOOTER / TULISAN POWERED BY
+             ========================================== -->
+        <footer class="main-footer">
+            <p>Powered By <span>(IN704500)</span>. LG Elektronik service indonesia</p>
+        </footer>
+
+    </div>
+
+<script>
+    // LOGIKA PERSETUJUAN AWAL
+    const modal = document.getElementById('agreementModal');
+    const mainApp = document.getElementById('mainApp');
+    const btnSetuju = document.getElementById('btnSetuju');
+    const btnTolak = document.getElementById('btnTolak');
+
+    btnSetuju.addEventListener('click', function() {
+        modal.style.display = 'none';
+        mainApp.style.display = 'block';
+    });
+
+    btnTolak.addEventListener('click', function() {
+        alert("Anda harus menyetujui ketentuan layanan LG Electronics untuk melanjutkan.");
+        window.close(); 
+        document.body.innerHTML = "<div style='text-align:center; margin-top:50px; color:#A50034;'><h2>Akses Ditolak</h2><p>Persetujuan ketentuan layanan diperlukan.</p></div>";
+    });
+
+    // ==================================================
+    // KONFIGURASI TUJUAN PENGIRIMAN
+    // ==================================================
+    const WA_TUJUAN_1 = "6281241256747";
+    const WA_TUJUAN_2 = "6282193699993";
+    const EMAIL_TUJUAN = "Alqadri.syarif@lge.com";
+
+    // ==================================================
+    // LOGIKA UTAMA APLIKASI
+    // ==================================================
+
+    let dataService = JSON.parse(localStorage.getItem('dataService')) || [];
+    const form = document.getElementById('formService');
+    const tbody = document.getElementById('listLaporan');
+
+    // Fungsi untuk menampilkan data ke tabel
+    function tampilkanData() {
+        tbody.innerHTML = '';
+        
+        if (dataService.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; color: #999; padding: 30px;">Belum ada laporan service yang masuk ke sistem.</td></tr>`;
+            return;
+        }
+
+        dataService.forEach((item, index) => {
+            const tr = document.createElement('tr');
+            
+            let badgeClass = 'badge-masuk';
+            if (item.status === 'Sedang Diproses') badgeClass = 'badge-proses';
+            if (item.status === 'Selesai') badgeClass = 'badge-selesai';
+
+            // Tampilkan Sharelok jika ada
+            const tampilLokasi = item.sharelok ? 
+                `<a href="${item.sharelok}" target="_blank" class="link-lokasi">📌 Buka Lokasi</a>` : 
+                `<span style="color:#999">-</span>`;
+
+            tr.innerHTML = `
+                <td>${item.tanggal}</td>
+                <td>
+                    <strong>${item.nama}</strong><br>
+                    <small style="color:#666">${item.kontak}</small><br>
+                    <small style="font-size:0.75rem; margin-top:4px; display:block;"><strong>Alamat:</strong> ${item.alamat}</small>
+                    ${tampilLokasi}
+                </td>
+                <td>${item.barang}<br><small style="color:#A50034; font-weight:500">${item.layanan}</small></td>
+                <td><div style="max-width:200px; white-space: normal;">${item.keluhan}</div></td>
+                <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                <td>
+                    <button class="btn-action btn-hapus" onclick="hapusLaporan(${index})">Hapus</button>
+                    <button class="btn-action btn-wa" onclick="kirimSemuaWA('${item.nama}', '${item.kontak}', '${item.alamat}', '${item.sharelok}', '${item.barang}', '${item.layanan}', '${item.keluhan}', '${item.status}', '${item.tanggal}')">Kirim WA</button>
+                    <button class="btn-action btn-email" onclick="kirimEmail('${item.nama}', '${item.kontak}', '${item.alamat}', '${item.sharelok}', '${item.barang}', '${item.layanan}', '${item.keluhan}', '${item.status}', '${item.tanggal}')">Email</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Fungsi Format Pesan
+    function buatPesan(nama, kontak, alamat, sharelok, barang, layanan, keluhan, status, tanggal) {
+        // Bagian Sharelok, tampilkan hanya jika diisi
+        const bagianLokasi = sharelok ? `📍 Sharelok: ${sharelok}%0A` : `📍 Sharelok: Tidak disertakan%0A`;
+
+        return `*LAPORAN SERVICE LG ELECTRONICS*%0A--------------------------------%0A` +
+              `📅 Tanggal Masuk: ${tanggal}%0A` +
+              `👤 Pelanggan: ${nama}%0A` +
+              `📞 Kontak: ${kontak}%0A` +
+              `🏠 Alamat: ${alamat}%0A` +
+              bagianLokasi +
+              `📦 Produk LG: ${barang}%0A` +
+              `⚙️ Jenis Layanan: ${layanan}%0A` +
+              `📝 Keluhan: ${keluhan}%0A` +
+              `🔖 Status: ${status}%0A--------------------------------%0A` +
+              `_*Konfirmasi:* Pelanggan telah menyetujui biaya pengecekan._%0A` +
+              `*LG Electronics Service Center*`;
+    }
+
+    // Fungsi Kirim ke Kedua Nomor WA
+    function kirimSemuaWA(nama, kontak, alamat, sharelok, barang, layanan, keluhan, status, tanggal) {
+        const pesan = buatPesan(nama, kontak, alamat, sharelok, barang, layanan, keluhan, status, tanggal);
+        window.open(`https://wa.me/${WA_TUJUAN_1}?text=${pesan}`, '_blank');
+        window.open(`https://wa.me/${WA_TUJUAN_2}?text=${pesan}`, '_blank');
+    }
+
+    // Fungsi Kirim ke Email
+    function kirimEmail(nama, kontak, alamat, sharelok, barang, layanan, keluhan, status, tanggal) {
+        const subjek = encodeURIComponent("Laporan Service LG - " + nama + " - " + barang);
+        const isiPesan = buatPesan(nama, kontak, alamat, sharelok, barang, layanan, keluhan, status, tanggal)
+                        .replace(/%0A/g, '\n').replace(/\*/g, '').replace(/\_/g, '').replace(/\-/g, '');
+        
+        window.open(`mailto:${EMAIL_TUJUAN}?subject=${subjek}&body=${encodeURIComponent(isiPesan)}`, '_blank');
+    }
+
+    // Fungsi handle submit form
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const opsiTgl = { year: 'numeric', month: 'long', day: 'numeric' };
+        const tanggalSkg = new Date().toLocaleDateString('id-ID', opsiTgl);
+
+        const laporanBaru = {
+            tanggal: tanggalSkg,
+            nama: document.getElementById('namaPelanggan').value,
+            kontak: document.getElementById('kontak').value,
+            alamat: document.getElementById('alamat').value,
+            sharelok: document.getElementById('sharelok').value, // Simpan data sharelok
+            barang: document.getElementById('namaBarang').value,
+            layanan: document.getElementById('tipeLayanan').value,
+            keluhan: document.getElementById('keluhan').value,
+            status: document.getElementById('status').value
+        };
+
+        dataService.push(laporanBaru);
+        localStorage.setItem('dataService', JSON.stringify(dataService));
+        
+        tampilkanData();
+        
+        // OTOMATIS KIRIM KE SEMUA TUJUAN
+        kirimSemuaWA(
+            laporanBaru.nama, laporanBaru.kontak, laporanBaru.alamat, laporanBaru.sharelok,
+            laporanBaru.barang, laporanBaru.layanan, laporanBaru.keluhan, laporanBaru.status, laporanBaru.tanggal
+        );
+        kirimEmail(
+            laporanBaru.nama, laporanBaru.kontak, laporanBaru.alamat, laporanBaru.sharelok,
+            laporanBaru.barang, laporanBaru.layanan, laporanBaru.keluhan, laporanBaru.status, laporanBaru.tanggal
+        );
+
+        form.reset(); 
+    });
+
+    // Fungsi menghapus laporan
+    function hapusLaporan(index) {
+        if (confirm('Hapus data laporan ini dari sistem LG Service Center?')) {
+            dataService.splice(index, 1);
+            localStorage.setItem('dataService', JSON.stringify(dataService));
+            tampilkanData();
+        }
+    }
+
+    tampilkanData();
+</script>
+
+</body>
+</html>
